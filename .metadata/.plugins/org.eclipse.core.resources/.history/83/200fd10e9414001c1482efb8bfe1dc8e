@@ -1,0 +1,168 @@
+package com.matsuura.FaceMusicBatch.model;
+
+public class MusicData {
+
+	/** 変数 **/
+
+	// ランキング
+	private String position;
+	// 楽曲ID
+	private String id;
+	// 曲名
+	private String track;
+	// アーティスト名
+	private String artist;
+	// imageURL
+	private String url;
+	// danceablitity
+	private float danceability;
+	// energy
+	private float energy;
+	// loudness
+	private float loudness;
+	// speechiness
+	private float speechiness;
+	// acousticness
+	private float acousticness;
+	// instrumentalness
+	private float instrumentalness;
+	/// liveness
+	private float liveness;
+	// valence
+	private float valence;
+	// tempo
+	private float tempo;
+	// duration_time
+	private float durationTime;
+	// release_day
+	private float releaseDay;
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public float getDanceability() {
+		return danceability;
+	}
+
+	public void setDanceability(float danceability) {
+		this.danceability = danceability;
+	}
+
+	public float getEnergy() {
+		return energy;
+	}
+
+	public void setEnergy(float energy) {
+		this.energy = energy;
+	}
+
+	public float getLoudness() {
+		return loudness;
+	}
+
+	public void setLoudness(float loudness) {
+		this.loudness = loudness;
+	}
+
+	public float getSpeechiness() {
+		return speechiness;
+	}
+
+	public void setSpeechiness(float speechiness) {
+		this.speechiness = speechiness;
+	}
+
+	public float getAcousticness() {
+		return acousticness;
+	}
+
+	public void setAcousticness(float acousticness) {
+		this.acousticness = acousticness;
+	}
+
+	public float getInstrumentalness() {
+		return instrumentalness;
+	}
+
+	public void setInstrumentalness(float instrumentalness) {
+		this.instrumentalness = instrumentalness;
+	}
+
+	public float getLiveness() {
+		return liveness;
+	}
+
+	public void setLiveness(float liveness) {
+		this.liveness = liveness;
+	}
+
+	public float getValence() {
+		return valence;
+	}
+
+	public void setValence(float valence) {
+		this.valence = valence;
+	}
+
+	public float getTempo() {
+		return tempo;
+	}
+
+	public void setTempo(float tempo) {
+		this.tempo = tempo;
+	}
+
+	public float getDurationTime() {
+		return durationTime;
+	}
+
+	public void setDurationTime(float durationTime) {
+		this.durationTime = durationTime;
+	}
+
+	public float getReleaseDay() {
+		return releaseDay;
+	}
+
+	public void setReleaseDay(float releaseDay) {
+		this.releaseDay = releaseDay;
+	}
+
+	public String getPosition() {
+		return position;
+	}
+
+	public void setPosition(String position) {
+		this.position = position;
+	}
+
+	public String getTrack() {
+		return track;
+	}
+
+	public void setTrack(String track) {
+		this.track = track;
+	}
+
+	public String getArtist() {
+		return artist;
+	}
+
+	public void setArtist(String artist) {
+		this.artist = artist;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+}

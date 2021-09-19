@@ -1,0 +1,5 @@
+package com.matsuura.FaceMusicBatch.interfaces;
+
+public class GetOtherDataListener {
+
+}

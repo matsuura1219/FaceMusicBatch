@@ -1,0 +1,120 @@
+package com.matsuura.FaceMusicBatch.service;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import com.matsuura.FaceMusicBatch.model.CSVData;
+import com.matsuura.FaceMusicBatch.model.EmotionAndDurationDataModel;
+import com.matsuura.FaceMusicBatch.model.OtherDataModel;
+import com.matsuura.FaceMusicBatch.util.Constants;
+
+public class UpdateDbData {
+
+	/** 変数 **/
+
+	// SQL文
+	private final String INSERT_SQL = "insert into face_music_db.test_db (id, name) values (?,?)";
+
+	//接続オブジェクト
+	private Connection con;
+
+	// プリコンパイルされたSQL文を扱うオブジェクト
+	PreparedStatement ps = null;
+
+	// CSVデータのリスト
+	private ArrayList<CSVData> csvDataLists;
+
+	// EmotionAndDurationAPIのリスト
+	private ArrayList<EmotionAndDurationDataModel> emotionAndDurationLists;
+
+	// OtherAPIのリスト
+	private ArrayList<OtherDataModel> otherDataLists;
+
+
+	/** コンストラクタ **/
+	public UpdateDbData (ArrayList<CSVData> lists) {
+
+		this.csvDataLists = lists;
+
+	}
+
+	/**
+	 * DB接続用の関数です
+	 */
+	private Connection getConnect () throws SQLException, ClassNotFoundException {
+
+		Class.forName("com.mysql.jdbc.Driver");
+
+		// 接続先URL
+		String url = "jdbc:mysql://" + Constants.DB_SERVER_URL + ":3306/" + Constants.TABLE_NAME;
+
+		// Connectionの設定をします
+		con = DriverManager.getConnection(url, Constants.DB_USER_ID, Constants.DB_PASSWORD);
+
+		return con;
+
+	}
+
+	/**
+	 * DB遮断用の関数です
+	 */
+	public void close () throws SQLException {
+
+		if (con != null) {
+			con.close();
+		}
+	}
+
+
+	/** DBのデータを更新する関数です **/
+	public void excute () throws SQLException {
+
+		int id = 0;
+		String name = "test";
+
+		try {
+
+			// Connectionを取得します
+			con = getConnect();
+
+			// コミットモードをfalse（手動更新）にします
+			con.setAutoCommit(false);
+
+
+			// SQL文の設定を行います
+			ps = con.prepareStatement(INSERT_SQL);
+
+			for (int i=0; i<100; i++) {
+
+				// パラメータを設定します
+				ps.setInt(1, lists.get(i).getDurationTime());
+				ps.setString(2,  lists.get(i).getArtist());
+
+
+			}
+
+
+			// SQL文を実行します
+			ps.executeUpdate();
+
+			// コミットします
+			con.commit();
+
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+			// ロールバックします
+			con.rollback();
+
+		}
+	}
+
+
+
+
+}

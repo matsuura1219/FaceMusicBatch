@@ -1,0 +1,34 @@
+package com.matsuura.FaceMusicBatch.model;
+
+public class CSVData {
+
+	/** 変数 **/
+
+	// ランキング
+	private String position;
+
+	// 楽曲ID
+	private String id;
+
+
+	public String getPostion() {
+		return position;
+	}
+
+
+	public void setPosition(String postion) {
+		this.position = postion;
+	}
+
+
+	public String getId() {
+		return id;
+	}
+
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+
+}

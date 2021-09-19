@@ -1,0 +1,8 @@
+package com.matsuura.FaceMusicBatch.util;
+
+
+/** DBの操作を行う関数をまとめたクラスです **/
+
+public class DBUtil {
+
+}

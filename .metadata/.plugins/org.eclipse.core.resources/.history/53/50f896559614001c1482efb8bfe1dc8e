@@ -1,0 +1,53 @@
+package com.matsuura.FaceMusicBatch.util;
+
+/** 定数をまとめたクラスです **/
+
+public class Constants {
+
+	/** Spotify **/
+
+	// アクセストークン取得用URL
+	public static String SPOTIFY_ACCESS_TOKEN_URL = "https://accounts.spotify.com/api/token";
+
+	// Spotify Client ID
+	public static String SPOTIFY_CLIENT_ID = "5e538ac7c7d04d4ba793277b2219df11";
+
+	// Spotify Client Secret
+	public static String SPOTIFY_CLIENT_SECRET = "b22eab51a46c4d88b1fdd817567312ec";
+
+	// body-key
+	public static String SPOTIFY_REQUEST_KEY = "grant_type";
+
+	// body-value
+	public static String SPOTIFY_REQUEST_VALUE = "client_credentials";
+
+	// header-key
+	public static String SPOTIFY_HEADER_REQUEST_KEY = "Authorization";
+
+	// header-value
+	public static String SPOTIFY_HEADER_REQUEST_VALUE = "Basic ";
+
+	// CSVファイルダウンロード用URL
+	public static String SPOTIFY_CSV_DOWNLOAD_URL = "https://spotifycharts.com/regional/jp/daily/2021-09-11/download";
+
+	// 楽曲IDの切り出し用パス
+	public static String SPOTIDY_ID_PATH = "https://open.spotify.com/track/";
+
+	// 楽曲情報（曲調）取得用URL
+	public static String SPOTIFY_GET_EMOTION_URL = "	https://api.spotify.com/v1/audio-features";
+
+	public static String ACCEPT = "Accept";
+
+	public static String CONTENT_TYPE = "Content-Type";
+
+	public static String JSON = "application/json";
+
+
+
+	/** OkHttp **/
+
+	// MIMEタイプ
+	public static String SPOTIFY_OAUTH_MIME_TYPE = "application/x-www-form-urlencoded";
+
+
+}

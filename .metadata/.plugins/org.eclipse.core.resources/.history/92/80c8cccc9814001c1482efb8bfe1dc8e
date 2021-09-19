@@ -1,0 +1,26 @@
+package com.matsuura.FaceMusicBatch;
+
+import java.util.ArrayList;
+
+import com.matsuura.FaceMusicBatch.model.CSVData;
+import com.matsuura.FaceMusicBatch.service.DownloadCSVClient;
+import com.matsuura.FaceMusicBatch.service.SpotifyApiClient;
+
+/** 最初に起動するメインクラスです **/
+
+public class App
+{
+    public static void main(String[] args) {
+
+    	// アクセストークンを取得します
+    	String accessToken = SpotifyApiClient.getInstance().getAccessToken();
+
+    	// CSVファイルを読み込みます
+    	DownloadCSVClient client = DownloadCSVClient.getInstance();
+    	ArrayList<CSVData> list = client.downloadCSVFile();
+
+    	// 感情とトラックの長さを取得する関数を呼び出します
+    	SpotifyApiClient.getInstance().getEmotionData("0XaHPBAzPAC5ubwcRBqc1p", "");
+
+    }
+}

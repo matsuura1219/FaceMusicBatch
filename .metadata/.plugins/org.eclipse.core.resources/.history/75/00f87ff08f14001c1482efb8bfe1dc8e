@@ -1,0 +1,15 @@
+package com.matsuura.FaceMusicBatch.util;
+
+public class CommonUtil {
+
+	public static boolean hasNumber (String number) {
+
+		if (number.matches("[0-9]")) {
+			return true;
+		}
+
+		return false;
+
+	}
+
+}

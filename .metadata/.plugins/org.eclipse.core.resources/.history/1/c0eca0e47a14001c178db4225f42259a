@@ -1,0 +1,22 @@
+package com.matsuura.FaceMusicBatch.service;
+
+public class DownloadCSV {
+
+	/** 変数 **/
+
+	private static DownloadCSV client;
+
+
+	/** シングルトン **/
+
+	public static SpotifyApiClient getInstance() {
+
+		if (client == null) {
+			client = new SpotifyApiClient();
+		}
+
+		return client;
+	}
+
+
+}

@@ -1,0 +1,108 @@
+package com.matsuura.FaceMusicBatch.service;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+import com.matsuura.FaceMusicBatch.util.Constants;
+
+public class DownloadCSVClient {
+
+	/** 変数 **/
+
+	private static DownloadCSVClient client;
+
+	/** シングルトン **/
+
+	public static DownloadCSVClient getInstance() {
+
+		if (client == null) {
+			client = new DownloadCSVClient();
+		}
+
+		return client;
+	}
+
+	/** 外部URLからCSVファイルをダウンロードする関数です **/
+
+	public void downloadCSVFile() {
+
+		//ファイル読み込みで使用する３つのクラス
+		FileInputStream fi = null;
+		InputStreamReader is = null;
+		BufferedReader br = null;
+
+		try {
+
+			// 読み込みファイルのインスタンス生成
+			// ファイル名を指定する
+			fi = new FileInputStream("resources/regional-jp-daily-2021-09-11.csv");
+			is = new InputStreamReader(fi);
+			br = new BufferedReader(is);
+
+			//読み込み行
+			String line;
+
+			//読み込み行数の管理
+			int i = 0;
+
+			//1行ずつ読み込みを行う
+			while ((line = br.readLine()) != null) {
+
+
+				if (i >= 2) {
+
+					// カンマで分割した内容を配列に格納する
+					String[] data = line.split(",");
+
+					// ランキング
+					String position = data[0];
+					// トラック名
+					String track = data[1];
+					// 歌手名
+					String artist = data[2];
+					// 楽曲id
+					String id = "";
+
+
+
+					if (data[3].length() == 6) {
+						int index = Constants.SPOTIDY_ID_PATH.length();
+						id = data[4].substring(index);
+					} else {
+						int index = Constants.SPOTIDY_ID_PATH.length();
+						id = data[3].substring(index);
+					}
+
+
+
+					System.out.println("===================================================");
+					System.out.println(i + "行目：");
+					System.out.println("ランキング：" + position);
+					System.out.println("トラック：" + track);
+					System.out.println("歌手：" + artist);
+					System.out.println("id：" + id);
+					System.out.println("===================================================");
+
+
+				}
+
+				//行数のインクリメント
+				i++;
+
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				br.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+	}
+
+}

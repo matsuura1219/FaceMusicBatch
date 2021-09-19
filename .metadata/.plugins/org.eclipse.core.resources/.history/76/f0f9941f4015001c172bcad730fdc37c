@@ -1,0 +1,46 @@
+package com.matsuura.FaceMusicBatch.model;
+
+/** アクセストークン取得時のデータクラスです **/
+
+public class AuthResponse {
+
+	/** メンバー変数 **/
+
+	// アクセストークン
+	private String accessToken;
+	// 認証方式
+	private String tokenType;
+	// 有効期限
+	private int expiresIn;
+
+
+	public int getExpiresIn() {
+		return expires_in;
+	}
+
+
+	public void setExpiresIn(int expires_in) {
+		this.expires_in = expires_in;
+	}
+
+
+	public String getTokenType() {
+		return token_type;
+	}
+
+
+	public void setTokenType(String token_type) {
+		this.token_type = token_type;
+	}
+
+
+	public String getAccessToken() {
+		return access_token;
+	}
+
+
+	public void setAccessToken(String access_token) {
+		this.access_token = access_token;
+	}
+
+}

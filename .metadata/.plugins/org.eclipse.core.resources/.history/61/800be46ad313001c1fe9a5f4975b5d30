@@ -1,0 +1,12 @@
+package com.matsuura.FaceMusicBatch;
+
+
+/** 最初に起動するメインクラスです **/
+
+public class App
+{
+    public static void main(String[] args) {
+
+
+    }
+}

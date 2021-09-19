@@ -1,0 +1,174 @@
+package com.matsuura.FaceMusicBatch.controllers;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import com.matsuura.FaceMusicBatch.interfaces.GetAccessTokenListener;
+import com.matsuura.FaceMusicBatch.interfaces.GetEmotionAndDurationListener;
+import com.matsuura.FaceMusicBatch.interfaces.GetOtherDataListener;
+import com.matsuura.FaceMusicBatch.model.CSVData;
+import com.matsuura.FaceMusicBatch.model.EmotionAndDurationDataModel;
+import com.matsuura.FaceMusicBatch.model.MusicData;
+import com.matsuura.FaceMusicBatch.model.OtherDataModel;
+import com.matsuura.FaceMusicBatch.service.DownloadCSVClient;
+import com.matsuura.FaceMusicBatch.service.SpotifyApiClient;
+import com.matsuura.FaceMusicBatch.service.UpdateDbData;
+
+/** DBに格納されている楽曲データを更新するコントローラーです **/
+
+public class UpdateDBController implements GetAccessTokenListener, GetEmotionAndDurationListener, GetOtherDataListener {
+
+	/** 変数 **/
+
+	// EmotionAndDurationAPIのリスト
+	private ArrayList<EmotionAndDurationDataModel> emotionAndDurationLists;
+
+	// OtherAPIのリスト
+	private ArrayList<OtherDataModel> otherLists;
+
+	// 楽曲データ
+	private ArrayList<MusicData> dataLists;
+
+	// アクセストークン
+	private String accessToken = "";
+
+	/** 定数 **/
+
+	private int MAX_API_CALL_COUNT = 200;
+
+	/** コンストラクタ **/
+
+	public UpdateDBController() {
+
+	}
+
+	/** コントローラーを起動する関数です **/
+
+	public void excute() {
+
+		// Spotofy アクセストークンを取得します
+		SpotifyApiClient.getInstance().getAccessToken(this);
+
+	}
+
+	/** アクセストークン取得時に実行されるコールバック関数です
+	 * @param accessToken String アクセストークン
+	 */
+	public void onSuccess(String accessToken) {
+
+		this.accessToken = accessToken;
+
+		ArrayList<CSVData> csvLists = DownloadCSVClient.getInstance().downloadCSVFile();
+
+		for (int i = 0; i < MAX_API_CALL_COUNT; i++) {
+
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				// TODO 自動生成された catch ブロック
+				e.printStackTrace();
+			}
+
+			SpotifyApiClient.getInstance().getEmotionAndDurationData(csvLists.get(i).getId(), this.accessToken, this);
+
+		}
+
+	}
+
+	/** API呼び出し時に実行されるコールバック関数です
+	 * @param accessToken String アクセストークン
+	 */
+
+	public void onSuccess(EmotionAndDurationDataModel data) {
+
+		if (emotionAndDurationLists == null) {
+			emotionAndDurationLists = new ArrayList<EmotionAndDurationDataModel>();
+		}
+
+		emotionAndDurationLists.add(data);
+
+		if (emotionAndDurationLists.size() == MAX_API_CALL_COUNT) {
+
+			for (int i=0; i<MAX_API_CALL_COUNT; i++) {
+
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					// TODO 自動生成された catch ブロック
+					e.printStackTrace();
+				}
+
+				SpotifyApiClient.getInstance().getOtherMusicData(emotionAndDurationLists.get(i).getId(), this.accessToken, this);
+			}
+
+		}
+
+	}
+
+
+	/** API呼び出し時に実行されるコールバック関数です
+	 * @param accessToken String アクセストークン
+	 */
+
+	public void onSuccess(OtherDataModel data) {
+
+		if (otherLists == null) {
+			otherLists = new ArrayList<OtherDataModel>();
+		}
+
+		otherLists.add(data);
+
+		if (otherLists.size() == MAX_API_CALL_COUNT) {
+
+			if (dataLists == null) {
+				dataLists = new ArrayList<MusicData>();
+			}
+
+			for (int i=0; i<MAX_API_CALL_COUNT; i++) {
+
+				MusicData musicData = new MusicData();
+				musicData.setAcousticness(emotionAndDurationLists.get(i).getAcousticness());
+				musicData.setArtist(otherLists.get(i).getArtist());
+				musicData.setDanceability(emotionAndDurationLists.get(i).getDanceability());
+				musicData.setDurationTime(emotionAndDurationLists.get(i).getDurationTime());
+				musicData.setEnergy(emotionAndDurationLists.get(i).getEnergy());
+				musicData.setId(emotionAndDurationLists.get(i).getId());
+				musicData.setInstrumentalness(emotionAndDurationLists.get(i).getInstrumentalness());
+				musicData.setLiveness(emotionAndDurationLists.get(i).getLiveness());
+				musicData.setLoudness(emotionAndDurationLists.get(i).getLoudness());
+				musicData.setReleaseDay(otherLists.get(i).getReleaseDay());
+				musicData.setSpeechiness(emotionAndDurationLists.get(i).getSpeechiness());
+				musicData.setTempo(emotionAndDurationLists.get(i).getTempo());
+				musicData.setTrack(otherLists.get(i).getTrack());
+				musicData.setUrl(otherLists.get(i).getUrl());
+				musicData.setValence(emotionAndDurationLists.get(i).getValence());
+
+				dataLists.add(musicData);
+
+			}
+
+			UpdateDbData controller = new UpdateDbData(dataLists);
+
+
+			try {
+				controller.excute();
+			} catch (SQLException e) {
+				// TODO 自動生成された catch ブロック
+				e.printStackTrace();
+			}
+
+
+
+		}
+	}
+
+
+
+	/** APIコール失敗時に実行されるコールバック関数です
+	 * @param errorCode String エラーコード
+	 */
+	public void onFailure(String errorCode) {
+
+	}
+
+}

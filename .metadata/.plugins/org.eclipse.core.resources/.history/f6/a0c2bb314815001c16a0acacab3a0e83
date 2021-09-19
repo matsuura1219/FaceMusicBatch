@@ -1,0 +1,18 @@
+package com.matsuura.FaceMusicBatch.model;
+
+/** アクセストークン取得時のデータクラスです **/
+
+public class AuthResponse {
+
+	/** メンバー変数 **/
+
+	// アクセストークン
+	private String access_token;
+	// 認証方式
+	private String token_type;
+	// 有効期限
+	private int expires_in;
+
+
+
+}

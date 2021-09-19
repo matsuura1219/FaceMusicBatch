@@ -1,0 +1,99 @@
+package com.matsuura.FaceMusicBatch.service;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import com.matsuura.FaceMusicBatch.util.Constants;
+
+public class UpdateDbData {
+
+	/** 変数 **/
+
+	// SQL文
+	private String INSERT_SQL = "insert into face_music_db.test_db (id, name) values (?,?)";
+
+	//接続オブジェクト
+	private Connection con;
+
+	// プリコンパイルされたSQL文を扱うオブジェクト
+	PreparedStatement ps = null;
+
+
+
+
+	/** コンストラクタ **/
+	public UpdateDbData () {
+
+	}
+
+	/**
+	 * DB接続用の関数です
+	 */
+	private Connection getConnect () throws SQLException, ClassNotFoundException {
+
+		Class.forName("com.mysql.jdbc.Driver");
+
+		//接続先URL
+		String url = "jdbc:mysql://" + Constants.DB_SERVER_URL + ":3306/face_music_db";
+
+		con = DriverManager.getConnection(url, Constants.DB_USER_ID, Constants.DB_PASSWORD);
+
+		return con;
+
+	}
+
+	/**
+	 * DB遮断用の関数です
+	 */
+	public void close () throws SQLException {
+
+		if (con != null) {
+			con.close();
+		}
+	}
+
+
+	/** DBのデータを更新する関数です **/
+	public void excute () throws SQLException {
+
+		int id = 0;
+		String name = "test";
+
+		try {
+
+			// Connectionを取得します
+			con = getConnect();
+
+			// コミットモードをfalse（手動更新）にします
+			con.setAutoCommit(false);
+
+			// SQL文の設定を行います
+			ps = con.prepareStatement(INSERT_SQL);
+
+			// パラメータを設定します
+			ps.setInt(1, id);
+			ps.setString(2,  name);
+
+			// SQL文を実行します
+			ps.executeUpdate();
+
+			// コミットします
+			con.commit();
+
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+			// ロールバックします
+			con.rollback();
+
+		}
+	}
+
+
+
+
+}

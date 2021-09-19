@@ -1,0 +1,21 @@
+package com.matsuura.FaceMusicBatch.util;
+
+public class CommonUtil {
+
+	/** 数字のみが含まれているかを判定する関数です **/
+
+	public static boolean isAllNumber(String number) {
+
+		try {
+
+			int integer = Integer.parseInt(number);
+			return true;
+
+		} catch (NumberFormatException ne) {
+			return false;
+
+		}
+
+	}
+
+}

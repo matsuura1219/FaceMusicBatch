@@ -1,0 +1,15 @@
+package com.matsuura.FaceMusicBatch;
+
+import com.matsuura.FaceMusicBatch.service.SpotifyApiClient;
+
+/** 最初に起動するメインクラスです **/
+
+public class App
+{
+    public static void main(String[] args) {
+
+    	// アクセストークンを取得します
+    	String accessToken = SpotifyApiClient.getInstance().getAccessToken();
+
+    }
+}

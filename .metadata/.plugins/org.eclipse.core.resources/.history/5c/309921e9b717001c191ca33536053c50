@@ -1,0 +1,5 @@
+package com.matsuura.FaceMusicBatch.model;
+
+public enum APITypeEnum {
+
+}

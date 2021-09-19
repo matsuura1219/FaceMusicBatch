@@ -1,0 +1,109 @@
+package com.matsuura.FaceMusicBatch.controllers;
+
+import java.util.ArrayList;
+
+import com.matsuura.FaceMusicBatch.interfaces.GetAccessTokenListener;
+import com.matsuura.FaceMusicBatch.interfaces.GetEmotionAndDurationListener;
+import com.matsuura.FaceMusicBatch.interfaces.GetOtherDataListener;
+import com.matsuura.FaceMusicBatch.model.CSVData;
+import com.matsuura.FaceMusicBatch.model.EmotionAndDurationDataModel;
+import com.matsuura.FaceMusicBatch.model.OtherDataModel;
+import com.matsuura.FaceMusicBatch.service.DownloadCSVClient;
+import com.matsuura.FaceMusicBatch.service.SpotifyApiClient;
+
+/** DBに格納されている楽曲データを更新するコントローラーです **/
+
+public class UpdateDBController implements GetAccessTokenListener, GetEmotionAndDurationListener, GetOtherDataListener {
+
+	/** 変数 **/
+
+	// EmotionAndDurationAPIのリスト
+	private ArrayList<EmotionAndDurationDataModel> emotionAndDurationLists;
+
+	// OtherAPIのリスト
+	private ArrayList<OtherDataModel> otherLists;
+
+	// アクセストークン
+	private String accessToken = "";
+
+	/** 定数 **/
+
+	private int MAX_API_CALL_COUNT = 10;
+
+	/** コンストラクタ **/
+
+	public UpdateDBController() {
+
+	}
+
+	/** コントローラーを起動する関数です **/
+
+	public void excute() {
+
+		// Spotofy アクセストークンを取得します
+		SpotifyApiClient.getInstance().getAccessToken(this);
+
+	}
+
+	/** アクセストークン取得時に実行されるコールバック関数です
+	 * @param accessToken String アクセストークン
+	 */
+	public void onSuccess(String accessToken) {
+
+		this.accessToken = accessToken;
+
+		ArrayList<CSVData> csvLists = DownloadCSVClient.getInstance().downloadCSVFile();
+
+		for (int i = 0; i <= MAX_API_CALL_COUNT; i++) {
+
+			SpotifyApiClient.getInstance().getEmotionAndDurationData(csvLists.get(i).getId(), this.accessToken, this);
+
+		}
+
+	}
+
+	/** API呼び出し時に実行されるコールバック関数です
+	 * @param accessToken String アクセストークン
+	 */
+
+	public void onSuccess(EmotionAndDurationDataModel data) {
+
+		if (emotionAndDurationLists == null) {
+			emotionAndDurationLists = new ArrayList<EmotionAndDurationDataModel>();
+		}
+
+		emotionAndDurationLists.add(data);
+
+		if (emotionAndDurationLists.size() == MAX_API_CALL_COUNT) {
+
+			for (int i=0; i<MAX_API_CALL_COUNT; i++) {
+
+				SpotifyApiClient.getInstance().getOtherMusicData(emotionAndDurationLists.get(i).getId(), this.accessToken, this);
+			}
+
+		}
+
+	}
+
+
+	/** API呼び出し時に実行されるコールバック関数です
+	 * @param accessToken String アクセストークン
+	 */
+
+	public void onSuccess(OtherDataModel data) {
+
+		if (otherLists == null) {
+			otherLists = new ArrayList<OtherDataModel>();
+		}
+	}
+
+
+
+	/** APIコール失敗時に実行されるコールバック関数です
+	 * @param errorCode String エラーコード
+	 */
+	public void onFailure(String errorCode) {
+
+	}
+
+}

@@ -1,0 +1,31 @@
+package com.matsuura.FaceMusicBatch.util;
+
+/** 定数をまとめたクラスです **/
+
+public class Constants {
+
+	/** Spotify **/
+
+	// アクセストークン取得用URL
+	public static String ACCESS_TOKEN_URL = "https://accounts.spotify.com/api/token";
+
+	// Spotify Client ID
+	public static String SPOTIFY_CLIENT_ID = "5e538ac7c7d04d4ba793277b2219df11";
+
+	// Spotify Client Secret
+	public static String SPOTIFY_CLIENT_SECRET = "b22eab51a46c4d88b1fdd817567312ec";
+
+	// body-key
+	public static String SPOTIFY_REQUEST_KEY = "grant_type";
+
+	// body-value
+	public static String SPOTIFY_REQUEST_VALUE = "client_credentials";
+
+	// header-key
+	public static String SPOTIFY_HEADER_REQUEST_KEY = "Authorization";
+
+	/** OkHttp**/
+	public static String SPOTIFY_OAUTH_MIME_TYPE = "application/x-www-form-urlencoded";
+
+
+}

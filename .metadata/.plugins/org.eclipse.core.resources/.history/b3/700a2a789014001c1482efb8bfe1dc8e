@@ -1,0 +1,17 @@
+package com.matsuura.FaceMusicBatch.util;
+
+public class CommonUtil {
+
+	/** 数字のみが含まれているかを判定する関数です **/
+
+	public static boolean isAllNumber (String number) {
+
+		if (number.matches("[0-9]")) {
+			return true;
+		}
+
+		return false;
+
+	}
+
+}

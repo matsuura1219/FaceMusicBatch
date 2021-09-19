@@ -1,0 +1,27 @@
+package com.matsuura.FaceMusicBatch;
+
+import com.matsuura.FaceMusicBatch.service.SpotifyApiClient;
+
+/** 最初に起動するメインクラスです **/
+
+public class App {
+	public static void main(String[] args) {
+
+		// アクセストークンを取得します
+		String a = SpotifyApiClient.getInstance().getAccessToken();
+
+		// CSVファイルを読み込みます
+		//DownloadCSVClient client = DownloadCSVClient.getInstance();
+		//ArrayList<CSVData> list = client.downloadCSVFile();
+
+		// 感情とトラックの長さを取得する関数を呼び出します
+		//SpotifyApiClient.getInstance().getOtherMusicData("7dH0dpi751EoguDDg3xx6J", "BQBh_dVW-olVaooq12118wQfhgaPrgzJDmIQXPQIC-op9NxzySce7Nal8kldufuUxKy-JgyYs2BqFG3gIAHJbq8cBNzMQnrOrTMpf50P-cAVbmq9lZHORNWeK_u4x32aMJs8x6jr5IuJ00Fa7YytztmW_6vOj_wmCV9ssq37CXFiwEJhL-BteWxRkG_wtRRX8rg8JLIndU5jfkL4g0AV7blAsK97KTrenWLCgjNhJgm7WF8Zd7LW8OmPXQyl4J131W7g_jFAhd0nXdvjnt_QoJPbiTleQ41bDNGrDnl8DXMI");
+
+		//UpdateDBController controller = new UpdateDBController();
+		//controller.excute();
+
+
+	}
+
+
+}

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="com.squareup.okhttp.MediaType"/>
+<fullyQualifiedTypeName name="java.util.HashMap"/>
+<fullyQualifiedTypeName name="com.squareup.okhttp.RequestBody"/>
+<fullyQualifiedTypeName name="java.util.Map.Entry"/>
+<fullyQualifiedTypeName name="java.util.Base64"/>
+<fullyQualifiedTypeName name="java.nio.charset.StandardCharsets"/>
+<fullyQualifiedTypeName name="com.squareup.okhttp.Request"/>
+<fullyQualifiedTypeName name="com.google.gson.JsonObject"/>
+<fullyQualifiedTypeName name="com.matsuura.FaceMusicBatch.model.AuthResponse"/>
+<fullyQualifiedTypeName name="com.fasterxml.jackson.databind.ObjectMapper"/>
+<fullyQualifiedTypeName name="java.net.URL"/>
+<fullyQualifiedTypeName name="java.net.MalformedURLException"/>
+<fullyQualifiedTypeName name="java.io.DataInputStream"/>
+<fullyQualifiedTypeName name="java.io.DataOutputStream"/>
+<fullyQualifiedTypeName name="java.io.FileOutputStream"/>
+<fullyQualifiedTypeName name="java.io.FileReader"/>
+<fullyQualifiedTypeName name="java.io.FileInputStream"/>
+<fullyQualifiedTypeName name="java.io.InputStreamReader"/>
+<fullyQualifiedTypeName name="java.io.BufferedReader"/>
+<fullyQualifiedTypeName name="java.io.IOException"/>
+<fullyQualifiedTypeName name="com.matsuura.FaceMusicBatch.model.CSVMember"/>
+<fullyQualifiedTypeName name="com.matsuura.FaceMusicBatch.util.Constants"/>
+<fullyQualifiedTypeName name="com.matsuura.FaceMusicBatch.util.CommonUtil"/>
+<fullyQualifiedTypeName name="com.matsuura.FaceMusicBatch.model.MusicDataMember"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="com.squareup.okhttp.Request.Builder"/>
+<fullyQualifiedTypeName name="org.json.JSONObject"/>
+<fullyQualifiedTypeName name="org.json.JSONArray"/>
+<fullyQualifiedTypeName name="com.squareup.okhttp.Headers"/>
+<fullyQualifiedTypeName name="com.squareup.okhttp.Callback"/>
+<fullyQualifiedTypeName name="com.matsuura.FaceMusicBatch.controllers.UpdateDBController"/>
+<fullyQualifiedTypeName name="com.matsuura.FaceMusicBatch.service.SpotifyApiClient"/>
+<fullyQualifiedTypeName name="com.matsuura.FaceMusicBatch.interfaces.GetAccessTokenListener"/>
+<fullyQualifiedTypeName name="com.matsuura.FaceMusicBatch.model.OtherDataModel"/>
+<fullyQualifiedTypeName name="com.matsuura.FaceMusicBatch.interfaces.GetOtherDataListener"/>
+<fullyQualifiedTypeName name="com.matsuura.FaceMusicBatch.interfaces.GetEmotionAndDurationListener"/>
+<fullyQualifiedTypeName name="com.matsuura.FaceMusicBatch.service.DownloadCSVClient"/>
+<fullyQualifiedTypeName name="com.matsuura.FaceMusicBatch.model.CSVData"/>
+<fullyQualifiedTypeName name="com.matsuura.FaceMusicBatch.model.EmotionAndDurationDataModel"/>
+<fullyQualifiedTypeName name="com.matsuura.FaceMusicBatch.model.APITypeEnum"/>
+<fullyQualifiedTypeName name="com.matsuura.FaceMusicBatch.model.MusicData"/>
+<fullyQualifiedTypeName name="java.lang.System"/>
+</qualifiedTypeNameHistroy>

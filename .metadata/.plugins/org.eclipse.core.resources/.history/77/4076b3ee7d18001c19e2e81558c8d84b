@@ -1,0 +1,29 @@
+package com.matsuura.FaceMusicBatch.model;
+
+public class EmotionAndDurationDataModel {
+
+	// 楽曲ID
+	private String id;
+	// danceablitity
+	private double danceability;
+	// energy
+	private double energy;
+	// loudness
+	private double loudness;
+	// speechiness
+	private double speechiness;
+	// acousticness
+	private double acousticness;
+	// instrumentalness
+	private double instrumentalness;
+	/// liveness
+	private double liveness;
+	// valence
+	private double valence;
+	// tempo
+	private double tempo;
+	// duration_time
+	private int durationTime;
+
+
+}

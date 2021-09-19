@@ -1,0 +1,302 @@
+package com.matsuura.FaceMusicBatch.service;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map.Entry;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.matsuura.FaceMusicBatch.interfaces.GetAccessTokenListener;
+import com.matsuura.FaceMusicBatch.interfaces.GetEmotionAndDurationListener;
+import com.matsuura.FaceMusicBatch.interfaces.GetOtherDataListener;
+import com.matsuura.FaceMusicBatch.model.AuthResponse;
+import com.matsuura.FaceMusicBatch.model.EmotionAndDurationDataModel;
+import com.matsuura.FaceMusicBatch.model.OtherDataModel;
+import com.matsuura.FaceMusicBatch.util.Constants;
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.Headers;
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.Response;
+
+public class SpotifyApiClient {
+
+	/** 変数 **/
+
+	// シングルトン変数
+	private static SpotifyApiClient client;
+
+
+	/** シングルトン **/
+
+	public static SpotifyApiClient getInstance() {
+
+		if (client == null) {
+			client = new SpotifyApiClient();
+		}
+
+		return client;
+	}
+
+	/** アクセストークンを取得する関数です **/
+
+	public void getAccessToken(final GetAccessTokenListener listener) {
+
+		// OkHttpをインスタンス化します
+		OkHttpClient client = new OkHttpClient();
+
+		// MIMEタイプを設定します
+		MediaType type = MediaType.parse(Constants.SPOTIFY_OAUTH_MIME_TYPE);
+
+		// 送信用のMapを作成します
+		HashMap<String, String> bodyMap = new HashMap<String, String>();
+		bodyMap.put(Constants.SPOTIFY_REQUEST_KEY, Constants.SPOTIFY_REQUEST_VALUE);
+
+		// bodyの設定をします
+		StringBuilder body = new StringBuilder();
+
+		for (Entry<String, String> entry : bodyMap.entrySet()) {
+			body.append(entry.getKey() + "=" + entry.getValue());
+		}
+
+		RequestBody requestBody = RequestBody.create(type, body.toString());
+
+		// headerの設定をします
+		String header = Constants.SPOTIFY_CLIENT_ID + ":" + Constants.SPOTIFY_CLIENT_SECRET;
+		byte[] encoded = Base64.getEncoder().encode(header.getBytes(StandardCharsets.UTF_8));
+		String encodedHeader = new String(encoded, StandardCharsets.UTF_8);
+
+		HashMap<String, String> headerMap = new HashMap<String, String>();
+		headerMap.put(Constants.SPOTIFY_HEADER_REQUEST_KEY, Constants.SPOTIFY_HEADER_REQUEST_VALUE + encodedHeader);
+
+		// リクエストを生成します
+		Request request = new Request.Builder()
+				.url(Constants.SPOTIFY_ACCESS_TOKEN_URL)
+				.headers(Headers.of(headerMap))
+				.post(requestBody)
+				.build();
+
+		// リクエストを行います
+		client.newCall(request).enqueue(new Callback() {
+
+			public void onFailure(Request request, IOException e) {
+
+				// 通信に失敗した場合
+				//System.out.println(request);
+
+				// 元のクラスに通知します
+				listener.onFailure("ERRORです");
+
+			}
+
+			public void onResponse(Response response) throws IOException {
+				// 通信が正常に終了した場合
+				//System.out.println(response);
+
+				// json文字列を取得します
+				String jsonStr = response.body().string();
+
+				// json文字列をパースします
+				ObjectMapper mapper = new ObjectMapper();
+				AuthResponse data = mapper.readValue(jsonStr, AuthResponse.class);
+
+				//System.out.println(data.getAccess_token());
+
+				// 元のクラスに通知します
+				listener.onSuccess(data.getAccess_token());
+
+
+			}
+
+		});
+
+	}
+
+	/** 感情のデータとトラック時間を取得するAPIをコールする関数です
+	 * @param id String 楽曲ID
+	 * @param accessToken String アクセストークン
+	 * @see https://developer.spotify.com/console/get-audio-features-several-tracks/
+	 */
+
+	public void getEmotionAndDurationData(final String id, String accessToken, final GetEmotionAndDurationListener listener) {
+
+		// Okhttpをインスタンス化します
+		OkHttpClient client = new OkHttpClient();
+
+		// headerの設定をします
+		HashMap<String, String> headerMap = new HashMap<String, String>();
+		headerMap.put(Constants.CONTENT_TYPE, Constants.JSON);
+		headerMap.put(Constants.ACCEPT, Constants.JSON);
+		headerMap.put(Constants.AUTHROZATION, Constants.BEARER + accessToken);
+
+		// リクエストを生成します
+		Request request = new Request.Builder().url(Constants.SPOTIFY_GET_EMOTION_URL + "?ids=" + id)
+				.headers(Headers.of(headerMap)).build();
+
+		// リクエストを行います
+		client.newCall(request).enqueue(new Callback() {
+
+			public void onFailure(Request request, IOException e) {
+				// 通信に失敗した場合
+				//System.out.println(request);
+
+				listener.onFailure("ERROR");
+
+			}
+
+			public void onResponse(Response response) throws IOException {
+				// 通信が正常に終了した場合
+				//System.out.println(response);
+
+				// json文字列を取得します
+				String jsonStr = response.body().string();
+
+				// json文字列をパースします
+				JSONObject json1 = new JSONObject(jsonStr);
+
+				JSONArray json2 = json1.getJSONArray("audio_features");
+				JSONObject json3 = json2.getJSONObject(0);
+
+				Double danceability = json3.getDouble("danceability");
+				Double energy = json3.getDouble("energy");
+				Double loudness = json3.getDouble("loudness");
+				Double speechiness = json3.getDouble("speechiness");
+				Double acousticness = json3.getDouble("acousticness");
+				Double instrumentalness = json3.getDouble("instrumentalness");
+				Double liveness = json3.getDouble("liveness");
+				Double valence = json3.getDouble("valence");
+				Double tempo = json3.getDouble("tempo");
+				int duration_ms = json3.getInt("duration_ms");
+
+				/*
+				System.out.println(danceability);
+				System.out.println(energy);
+				System.out.println(loudness);
+				System.out.println(speechiness);
+				System.out.println(acousticness);
+				System.out.println(instrumentalness);
+				System.out.println(liveness);
+				System.out.println(valence);
+				System.out.println(tempo);
+				System.out.println(duration_ms);
+
+				System.out.println("======================");
+
+				System.out.println("======================");
+				*/
+
+				EmotionAndDurationDataModel data = new EmotionAndDurationDataModel();
+				data.setId(id);
+				data.setDanceability(danceability);
+				data.setEnergy(energy);
+				data.setLoudness(loudness);
+				data.setSpeechiness(speechiness);
+				data.setAcousticness(acousticness);
+				data.setInstrumentalness(instrumentalness);
+				data.setLiveness(liveness);
+				data.setValence(valence);
+				data.setTempo(tempo);
+				data.setDurationTime(duration_ms);
+
+				listener.onSuccess(data);
+
+			}
+
+		});
+
+	}
+
+	/** 曲調、トラックの長さ以外のデータを取得する関数です
+	 * @param id String 楽曲ID
+	 * @param accessToken String アクセストークン
+	 * @see https://developer.spotify.com/console/get-several-tracks/?ids=3n3Ppam7vgaVa1iaRUc9Lp%2C3twNvmDtFQtAd5gMKedhLD&market=
+	 */
+
+	public void getOtherMusicData(String id, String accessToken, final GetOtherDataListener listener) {
+
+		// Okhttpをインスタンス化します
+		OkHttpClient client = new OkHttpClient();
+
+		// headerの設定をします
+		HashMap<String, String> headerMap = new HashMap<String, String>();
+		headerMap.put(Constants.CONTENT_TYPE, Constants.JSON);
+		headerMap.put(Constants.ACCEPT, Constants.JSON);
+		headerMap.put(Constants.AUTHROZATION, Constants.BEARER + accessToken);
+
+		// リクエストを生成します
+		Request request = new Request.Builder().url(Constants.SPOTIFY_GET_OTHER_DATA_URL + "?ids=" + id + "&market=JP")
+				.headers(Headers.of(headerMap)).build();
+
+		// リクエストを行います
+		client.newCall(request).enqueue(new Callback() {
+
+			public void onFailure(Request request, IOException e) {
+				// 通信に失敗した場合
+				//System.out.println(request);
+
+				listener.onFailure("ERROR");
+
+			}
+
+			public void onResponse(Response response) throws IOException {
+				// 通信が正常に終了した場合
+				//System.out.println(response);
+
+				// アーティスト名
+				// トラック名
+				// 画像URL
+				// リリース日
+
+				// json文字列を取得します
+
+				String jsonStr = response.body().string();
+				JSONObject json1 = new JSONObject(jsonStr);
+				JSONArray json2 = json1.getJSONArray("tracks");
+				JSONObject json3 = json2.getJSONObject(0);
+				JSONObject json4 = json3.getJSONObject("album");
+
+
+				JSONArray json5 = json4.getJSONArray("artists");
+				JSONObject json6 = json5.getJSONObject(0);
+
+				String artist = json6.getString("name");
+
+				JSONArray json7 = json4.getJSONArray("images");
+				JSONObject json8 = json7.getJSONObject(0);
+
+				String imageUrl = json8.getString("url");
+
+				String trackName = json4.getString("name");
+
+				String releaseDate = json4.getString("release_date");
+
+				/*
+				System.out.println(artist);
+				System.out.println(imageUrl);
+				System.out.println(trackName);
+				System.out.println(releaseDate);
+				*/
+
+				OtherDataModel data = new OtherDataModel();
+				data.setArtist(artist);
+				data.setUrl(imageUrl);
+				data.setTrack(trackName);
+				data.setReleaseDay(releaseDate);
+
+				listener.onSuccess(data);
+
+
+			}
+
+		});
+
+	}
+
+
+}
