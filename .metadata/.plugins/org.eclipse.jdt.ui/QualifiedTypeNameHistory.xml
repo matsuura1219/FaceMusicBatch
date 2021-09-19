@@ -10,19 +10,12 @@
 <fullyQualifiedTypeName name="com.google.gson.JsonObject"/>
 <fullyQualifiedTypeName name="com.matsuura.FaceMusicBatch.model.AuthResponse"/>
 <fullyQualifiedTypeName name="com.fasterxml.jackson.databind.ObjectMapper"/>
-<fullyQualifiedTypeName name="java.net.URL"/>
 <fullyQualifiedTypeName name="java.net.MalformedURLException"/>
-<fullyQualifiedTypeName name="java.io.DataInputStream"/>
-<fullyQualifiedTypeName name="java.io.DataOutputStream"/>
-<fullyQualifiedTypeName name="java.io.FileOutputStream"/>
 <fullyQualifiedTypeName name="java.io.FileReader"/>
 <fullyQualifiedTypeName name="java.io.FileInputStream"/>
 <fullyQualifiedTypeName name="java.io.InputStreamReader"/>
 <fullyQualifiedTypeName name="java.io.BufferedReader"/>
-<fullyQualifiedTypeName name="java.io.IOException"/>
 <fullyQualifiedTypeName name="com.matsuura.FaceMusicBatch.model.CSVMember"/>
-<fullyQualifiedTypeName name="com.matsuura.FaceMusicBatch.util.Constants"/>
-<fullyQualifiedTypeName name="com.matsuura.FaceMusicBatch.util.CommonUtil"/>
 <fullyQualifiedTypeName name="com.matsuura.FaceMusicBatch.model.MusicDataMember"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="com.squareup.okhttp.Request.Builder"/>
@@ -42,4 +35,15 @@
 <fullyQualifiedTypeName name="com.matsuura.FaceMusicBatch.model.APITypeEnum"/>
 <fullyQualifiedTypeName name="com.matsuura.FaceMusicBatch.model.MusicData"/>
 <fullyQualifiedTypeName name="java.lang.System"/>
+<fullyQualifiedTypeName name="com.matsuura.FaceMusicBatch.util.CommonUtil"/>
+<fullyQualifiedTypeName name="java.io.IOException"/>
+<fullyQualifiedTypeName name="java.io.DataInputStream"/>
+<fullyQualifiedTypeName name="java.io.DataOutputStream"/>
+<fullyQualifiedTypeName name="java.nio.channels.ReadableByteChannel"/>
+<fullyQualifiedTypeName name="java.io.FileOutputStream"/>
+<fullyQualifiedTypeName name="java.nio.channels.FileChannel"/>
+<fullyQualifiedTypeName name="java.io.InputStream"/>
+<fullyQualifiedTypeName name="java.net.URLConnection"/>
+<fullyQualifiedTypeName name="java.net.URL"/>
+<fullyQualifiedTypeName name="com.matsuura.FaceMusicBatch.util.Constants"/>
 </qualifiedTypeNameHistroy>

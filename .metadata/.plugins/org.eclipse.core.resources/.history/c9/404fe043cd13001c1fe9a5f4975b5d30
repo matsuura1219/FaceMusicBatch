@@ -1,9 +1,0 @@
-package com.matsuura.FaceMusicBatch.util;
-
-/** 定数をまとめたクラスです **/
-
-public class Constants {
-
-	/** アクセストークン取得用URL **/
-	public static String ACCESS_TOKEN_URL = "https://accounts.spotify.com/api/token";
-}

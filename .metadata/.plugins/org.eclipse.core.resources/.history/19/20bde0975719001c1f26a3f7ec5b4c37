@@ -1,0 +1,63 @@
+package com.matsuura.FaceMusicBatch.controllers;
+
+import java.util.ArrayList;
+
+import com.matsuura.FaceMusicBatch.interfaces.GetAccessTokenListener;
+import com.matsuura.FaceMusicBatch.service.SpotifyApiClient;
+
+/** Age Detection用を更新するためのコントローラーです **/
+
+public class UpdateAgeTableController implements GetAccessTokenListener {
+
+
+	/** 変数 **/
+	private String accessToken;
+
+	private ArrayList<String> playList;
+
+	/** コンストラクタ **/
+
+	public UpdateAgeTableController() {
+
+	}
+
+
+	/** コントローラーを起動する関数です **/
+
+	public void excute() {
+
+		// Spotofy アクセストークンを取得します
+		SpotifyApiClient.getInstance().getAccessToken(this);
+
+	}
+
+
+	/** アクセストークン取得時に実行されるコールバック関数です
+	 * @param accessToken String アクセストークン
+	 */
+	public void onSuccess(String accessToken) {
+
+		this.accessToken = accessToken;
+
+		// 1980年
+		// 37i9dQZF1DXdX26YqusBdd
+		// 1990年
+		// 37i9dQZF1DWWNbVDKoV50L
+		// 2000年
+		// 37i9dQZF1DX4OQAiraQRL0
+		// 2010年
+		// 37i9dQZF1DX4OQAiraQRL0
+		// 2020年
+		// 66k8O1RBpVeI9B3bm90aTB
+
+		SpotifyApiClient.getInstance().getMusicList("37i9dQZF1DWWNbVDKoV50L", accessToken);
+
+
+	}
+
+	public void onFailure(String errorCode) {
+		// TODO 自動生成されたメソッド・スタブ
+
+	}
+
+}

@@ -1,0 +1,8 @@
+package com.matsuura.FaceMusicBatch.controllers;
+
+
+/** Age Detection用を更新するためのコントローラーです **/
+
+public class UpdateAgeTableController {
+
+}

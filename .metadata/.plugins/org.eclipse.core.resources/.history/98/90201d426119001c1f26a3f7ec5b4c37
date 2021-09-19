@@ -1,0 +1,39 @@
+package com.matsuura.FaceMusicBatch;
+
+import com.matsuura.FaceMusicBatch.controllers.UpdateDBController;
+
+/** 最初に起動するメインクラスです **/
+
+public class App {
+	public static void main(String[] args) {
+
+		// アクセストークンを取得します
+		//SpotifyApiClient.getInstance().getAccessToken();
+
+		// CSVファイルを読み込みます
+		//DownloadCSVClient client = DownloadCSVClient.getInstance();
+		//ArrayList<CSVData> list = client.downloadCSVFile();
+
+		// 感情とトラックの長さを取得する関数を呼び出します
+		//SpotifyApiClient.getInstance().getOtherMusicData("7dH0dpi751EoguDDg3xx6J", "BQDlm3NqZEppGE4U5idf4taNzQT95qsQ8jw_u-TnHQXJFJtVto33XHHtc7MEe3G6h1EwBNJ0YH7NBIksTHnn-43KkKkPfRUzj4HCz1QxvWA-y2LsJE4ANWEE7652IZF1ICJ3tK-_nJQX8Qk7toxDVxnvN0o5gJH_YpKCcME_If4slFe4QKMS3UtIeOGJ5zVZB0nHV9uBA3g34V7ELr8zbt9FKf9lgzn3X0Z0sEcEEub5dc04WIGqDR7sLQGqqP5KrSOieV6H2ul0vowiZjgTyMrlqX3eY6efIqVo5HIc9zE3");
+
+	    UpdateDBController controller = new UpdateDBController();
+		controller.excute();
+
+
+		 //UpdateAgeTableController a = new UpdateAgeTableController();
+		 //a.excute();
+
+		/*
+		UpdateDbData a = new UpdateDbData();
+		try {
+			a.excute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		*/
+
+	}
+
+
+}

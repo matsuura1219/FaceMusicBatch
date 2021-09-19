@@ -1,0 +1,5 @@
+package com.matsuura.FaceMusicBatch.service;
+
+public class UpdateAgeTable {
+
+}

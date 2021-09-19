@@ -1,0 +1,52 @@
+package com.matsuura.FaceMusicBatch.controllers;
+
+import java.io.IOException;
+import java.util.ArrayList;
+
+import com.matsuura.FaceMusicBatch.interfaces.GetAccessTokenListener;
+import com.matsuura.FaceMusicBatch.model.CSVData;
+import com.matsuura.FaceMusicBatch.service.DownloadCSVClient;
+import com.matsuura.FaceMusicBatch.service.SpotifyApiClient;
+
+/** Age Detection用を更新するためのコントローラーです **/
+
+public class UpdateAgeTableController implements GetAccessTokenListener {
+
+
+	/** 変数 **/
+	private String accessToken;
+
+	/** コンストラクタ **/
+
+	public UpdateAgeTableController() {
+
+	}
+
+
+	/** コントローラーを起動する関数です **/
+
+	public void excute() {
+
+		// Spotofy アクセストークンを取得します
+		SpotifyApiClient.getInstance().getAccessToken(this);
+
+	}
+
+
+	/** アクセストークン取得時に実行されるコールバック関数です
+	 * @param accessToken String アクセストークン
+	 */
+	public void onSuccess(String accessToken) {
+
+		this.accessToken = accessToken;
+
+
+
+	}
+
+	public void onFailure(String errorCode) {
+		// TODO 自動生成されたメソッド・スタブ
+
+	}
+
+}

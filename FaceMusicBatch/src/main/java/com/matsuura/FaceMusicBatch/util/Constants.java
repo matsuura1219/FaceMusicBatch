@@ -55,6 +55,9 @@ public class Constants {
 	// Spotify API 呼び出し時のContent-Type
 	public static String JSON = "application/json";
 
+	// 楽曲IDをリストで取得するURL
+	public static String SPOTIFY_GET_PLAYLIST_URL = "https://api.spotify.com/v1/playlists/";
+
 
 	/** OkHttp **/
 

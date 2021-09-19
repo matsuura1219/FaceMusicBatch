@@ -63,23 +63,28 @@ public class UpdateDBController implements GetAccessTokenListener, GetEmotionAnd
 		ArrayList<CSVData> csvLists;
 		try {
 			csvLists = DownloadCSVClient.getInstance().downloadCSVFile();
+
+			for (int i = 0; i < MAX_API_CALL_COUNT; i++) {
+
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					// TODO 自動生成された catch ブロック
+					e.printStackTrace();
+				}
+
+				System.out.println("==========");
+				System.out.println("EmotionAndDuration取得開始");
+				System.out.println("==========");
+
+				SpotifyApiClient.getInstance().getEmotionAndDurationData(csvLists.get(i).getId(), this.accessToken, this);
+
+			}
 		} catch (IOException e1) {
 			// TODO 自動生成された catch ブロック
 			e1.printStackTrace();
 		}
 
-		for (int i = 0; i < MAX_API_CALL_COUNT; i++) {
-
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				// TODO 自動生成された catch ブロック
-				e.printStackTrace();
-			}
-
-			//SpotifyApiClient.getInstance().getEmotionAndDurationData(csvLists.get(i).getId(), this.accessToken, this);
-
-		}
 
 	}
 

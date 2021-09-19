@@ -2,6 +2,7 @@ package com.matsuura.FaceMusicBatch.service;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map.Entry;
@@ -13,6 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.matsuura.FaceMusicBatch.interfaces.GetAccessTokenListener;
 import com.matsuura.FaceMusicBatch.interfaces.GetEmotionAndDurationListener;
 import com.matsuura.FaceMusicBatch.interfaces.GetOtherDataListener;
+import com.matsuura.FaceMusicBatch.interfaces.GetPlayListListener;
 import com.matsuura.FaceMusicBatch.model.AuthResponse;
 import com.matsuura.FaceMusicBatch.model.EmotionAndDurationDataModel;
 import com.matsuura.FaceMusicBatch.model.OtherDataModel;
@@ -260,6 +262,7 @@ public class SpotifyApiClient {
 				JSONObject json1 = new JSONObject(jsonStr);
 				JSONArray json2 = json1.getJSONArray("tracks");
 				JSONObject json3 = json2.getJSONObject(0);
+
 				JSONObject json4 = json3.getJSONObject("album");
 
 
@@ -273,7 +276,11 @@ public class SpotifyApiClient {
 
 				String imageUrl = json8.getString("url");
 
-				String trackName = json4.getString("name");
+				String trackName = json3.getString("name");
+
+				System.out.println(trackName);
+
+
 
 				String releaseDate = json4.getString("release_date");
 
@@ -301,6 +308,70 @@ public class SpotifyApiClient {
 			}
 
 		});
+
+	}
+
+
+
+	/** プレイリストIDにある楽曲IDを取得する関数です
+	 * @param id String 楽曲ID
+	 * @param accessToken String アクセストークン
+	 * @see https://developer.spotify.com/console/get-playlist/?playlist_id=59ZbFPES4DQwEjBpWHzrtC&user_id=spotify
+	 */
+
+	public void getMusicList (String playlistId, String accessToken, final GetPlayListListener listener) {
+
+		// Okhttpをインスタンス化します
+		OkHttpClient client = new OkHttpClient();
+
+		// headerの設定をします
+		HashMap<String, String> headerMap = new HashMap<String, String>();
+		headerMap.put(Constants.CONTENT_TYPE, Constants.JSON);
+		headerMap.put(Constants.ACCEPT, Constants.JSON);
+		headerMap.put(Constants.AUTHROZATION, Constants.BEARER + accessToken);
+
+		// リクエストを生成します
+		Request request = new Request.Builder().url(Constants.SPOTIFY_GET_PLAYLIST_URL +  playlistId + "?market=JP&fields=tracks.items.track.id")
+				.headers(Headers.of(headerMap)).build();
+
+		// リクエストを行います
+		client.newCall(request).enqueue(new Callback() {
+
+			public void onFailure(Request request, IOException e) {
+				// 通信に失敗した場合
+
+			}
+
+			public void onResponse(Response response) throws IOException {
+				// 通信が正常に終了した場合
+
+				ArrayList<String> playlistIdList = new ArrayList<String>();
+
+				String jsonStr = response.body().string();
+				JSONObject json1 = new JSONObject(jsonStr);
+				JSONObject json2 = json1.getJSONObject("tracks");
+				JSONArray json3 = json2.getJSONArray("items");
+
+
+				for (int i=0; i<json3.length(); i++) {
+
+					JSONObject json4 = json3.getJSONObject(i);
+					JSONObject json5 = json4.getJSONObject("track");
+
+					// id
+					String id = json5.getString("id");
+					playlistIdList.add(id);
+
+					//System.out.println("id:" + id);
+				}
+
+				listener.onSuccess(playlistIdList);
+
+
+			}
+
+		});
+
 
 	}
 
